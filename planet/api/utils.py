@@ -142,3 +142,35 @@ def strp_timestamp(value):
 
 def strf_timestamp(when):
     return datetime.strftime(when, _ISO_FMT)
+
+
+def probably_wkt(text):
+    '''Quick check to determine if the provided text looks like WKT'''
+    valid = False
+    valid_types = set([
+        'POINT', 'LINESTRING', 'POLYGON', 'MULTIPOINT',
+        'MULTILINESTRING', 'MULTIPOLYGON', 'GEOMETRYCOLLECTION',
+    ])
+    matched = re.match('(\w+)\s*\([^)]+\)', text.strip())
+    if matched:
+        valid  = matched.group(1).upper() in valid_types
+    return valid
+
+
+def probably_geojson(input):
+    '''A quick check to see if this input looks like GeoJSON. If not a dict
+    JSON-like object, attempt to parse input as JSON. If the resulting object
+    has a type property that looks like GeoJSON, return that object or None'''
+    valid = False
+    if not isinstance(input, dict):
+        try:
+            input = json.loads(input)
+        except ValueError as ve:
+            pass
+    typename = input.get('type', None) if input else None
+    supported_types = set([
+        'Point', 'LineString', 'Polygon', 'MultiPoint', 'MultiLineString',
+        'MultiPolygon', 'GeometryCollection', 'Feature', 'FeatureCollection'
+    ])
+    valid = typename in supported_types
+    return input if valid else None
