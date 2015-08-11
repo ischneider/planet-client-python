@@ -15,7 +15,7 @@ docs-zip: html-docs
 	zip -m -r dist/planet-docs.zip planet-docs
 
 gh-docs:
-	git checkout -b gh-pages origin/gh-pages
+	git checkout gh-pages
 	rm -rf *
 	git checkout master $(GH_PAGES_SOURCES)
 	git reset HEAD
