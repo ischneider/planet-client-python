@@ -4,7 +4,7 @@
 DRAFT=${DRAFT:=true}
 BODY="${BODY:=$TAG}"
 REQUEST=$(printf '{"tag_name": "v%s","draft": %s, "name": "%s", "body": "%s"}' $TAG $DRAFT $TAG "$BODY")
-URL="https://api.github.com/repos/planetlabs/planet-client-python/releases"
+URL="https://api.github.com/repos/ischneider/planet-client-python/releases"
 
 echo 'Creating release with request:'
 echo $REQUEST

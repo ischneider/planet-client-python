@@ -36,7 +36,7 @@ release:
 	@[ $PROCEED != 'Y' ] && exit 0
 	@echo 'OK!'
 	git commit -m "release version $(TAG)" .
-	git push origin
+	git push ischneider
 	make DRAFT=false release-gh
 
 release-gh: check pex docs-zip
